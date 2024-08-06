@@ -14,15 +14,14 @@
     <br><br>
 
     <div class="card-deck">
-        <% categoryList.forEach((category) => { %>
+        <% gamesInCategory.forEach((game) => { %>
         <div class="card" style="width: 18rem;">
             <!-- <img src="..." class="card-img-top" alt="..."> -->
             <div class="card-body">
-                <h5 class="card-title"><%= category.name %> </h5>
+                <h5 class="card-title"><%= game.name %> </h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                <a href="/category/<%= category.category_id %>" class="btn btn-primary">More</a>
+                    card's content.</p>
+
             </div>
         </div>
         <% }); %>

@@ -8,6 +8,16 @@ const categoriesIndex = asyncHandler(async (req, res, next) => {
     });
 });
 
+const singleCategory = asyncHandler(async (req, res, next) => {
+    const data = await db.getSingleCategory(req.params.id);
+
+    res.render('singleCategory', {
+        title: (data.category[0] || {}).name || '',
+        gamesInCategory: data.gamesInCategory || []
+    });
+});
+
 module.exports = {
-    categoriesIndex
+    categoriesIndex,
+    singleCategory
 };

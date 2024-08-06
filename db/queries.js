@@ -28,7 +28,26 @@ async function getAllCategories() {
     return allCategories;
 }
 
+async function getSingleCategory(id) {
+    let category = [];
+    let gamesInCategory = [];
+
+    try {
+        category = (await pool.query("SELECT * FROM categories WHERE category_id = $1", [id])).rows;
+        gamesInCategory = (await pool.query("SELECT name FROM gamesAndCategories INNER JOIN games ON gamesAndCategories.game_id = games.game_id WHERE gamesAndCategories.category_id = $1", [id])).rows;
+
+        return {
+            category: category,
+            gamesInCategory: gamesInCategory
+        }
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
 module.exports = {
     getAllGames,
-    getAllCategories
+    getAllCategories,
+    getSingleCategory
 };

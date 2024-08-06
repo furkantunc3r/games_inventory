@@ -6,9 +6,9 @@ const {
 } = require('node:process');
 
 const SQL = `
+DROP TABLE IF EXISTS gamesAndCategories;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS gamesAndCategories;
 
 CREATE TABLE games(
 game_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -45,7 +45,7 @@ CONSTRAINT fk_category
 
 INSERT INTO gamesAndCategories (game_id, category_id)
 VALUES 
-    (1, 2),
+    (1, 1),
     (1, 3),
     (2, 2);
 `;

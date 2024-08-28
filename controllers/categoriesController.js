@@ -3,7 +3,7 @@ const db = require('../db/queries');
 
 const categoriesIndex = asyncHandler(async (req, res, next) => {
     res.render('categoriesIndex', {
-        title: 'All Categories',
+        title: 'G.A.P',
         categoryList: await db.getAllCategories()
     });
 });
@@ -12,7 +12,7 @@ const singleCategory = asyncHandler(async (req, res, next) => {
     const data = await db.getSingleCategory(req.params.id);
 
     res.render('singleCategory', {
-        title: (data.category[0] || {}).name || '',
+        title: 'G.A.P',
         gamesInCategory: data.gamesInCategory || []
     });
 });

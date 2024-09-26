@@ -34,4 +34,18 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form> -->
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.location.pathname.indexOf('/category') !== -1) {
+                const activeItem = document.querySelector("li.active");
+                if (activeItem) {
+                    activeItem.classList.remove('active');
+                }
+                const categoryLink = document.querySelector("li a[href='/category']");
+                if (categoryLink) {
+                    categoryLink.parentElement.classList.add('active');
+                }
+            }
+        });
+    </script>
 </nav>

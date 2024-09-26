@@ -10,19 +10,18 @@
 
 <body>
     <%- include('navbar', {title: title}) %>
-
     <br><br>
-
+    <a href="/category/create" class="btn btn-info" role="button" style="margin-left: 45%;">Create New Category</a>
+    <br><br>
     <div class="card-deck">
         <% categoryList.forEach((category) => { %>
         <div class="card" style="width: 18rem;">
             <!-- <img src="..." class="card-img-top" alt="..."> -->
             <div class="card-body">
                 <h5 class="card-title"><%= category.name %> </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
+                <p class="card-text"><%= category.description %></p>
                 <a href="/category/<%= category.category_id %>" class="btn btn-primary">More</a>
+                <a href="/category/update/<%= category.category_id %>" class="btn btn-warning">Update</a>
             </div>
         </div>
         <% }); %>

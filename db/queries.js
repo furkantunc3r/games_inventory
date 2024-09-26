@@ -62,9 +62,62 @@ async function getSingleCategory(id) {
         return;
     }
 }
+
+async function createNewCategory(categoryName, categoryDesription) {
+    try {
+        await pool.query("INSERT INTO CATEGORIES (name, description) values($1, $2)", [categoryName, categoryDesription]);
+
+        return 'Insert Successfull';
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
+async function createNewGame(gameName, gameDesription) {
+    try {
+        await pool.query("INSERT INTO GAMES (name, description) values($1, $2)", [gameName, gameDesription]);
+
+        return 'Insert Successful';
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
+async function updateGame(gameName, gameDescription, gameId) {
+    try {
+        await pool.query("UPDATE GAMES SET name = $1, description = $2 WHERE game_id = $3", [gameName, gameDescription, gameId]);
+
+        return 'Update Successful';
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
+async function updateCategory(categoryName, categoryDescription, categoryId) {
+    try {
+        await pool.query("UPDATE CATEGORIES SET name = $1, description = $2 WHERE category_id = $3", [categoryName, categoryDescription, categoryId]);
+
+        return 'Update Successful';
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
 module.exports = {
     getAllGames,
     getSingleGame,
     getAllCategories,
-    getSingleCategory
+    getSingleCategory,
+    createNewCategory,
+    createNewGame,
+    updateGame,
+    updateCategory
 };

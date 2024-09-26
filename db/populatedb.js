@@ -12,24 +12,26 @@ DROP TABLE IF EXISTS categories;
 
 CREATE TABLE games(
 game_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-name VARCHAR(255) NOT NULL
+name VARCHAR(255) NOT NULL,
+description VARCHAR(255) NOT NULL
 );
 
-INSERT INTO games (name)
+INSERT INTO games (name, description)
 VALUES
-    ('COD'),
-    ('WITCHER');
+    ('COD', 'A classical first person shooter'),
+    ('WITCHER', 'Inspired from the best selling Polish novel, this game offers a journey');
 
 CREATE TABLE categories(
 category_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-name VARCHAR(255) NOT NULL
+name VARCHAR(255) NOT NULL,
+description VARCHAR(255) NOT NULL
 );
 
-INSERT INTO categories (name)
+INSERT INTO categories (name, description)
 VALUES
-    ('FPS'),
-    ('RPG'),
-    ('Online');
+    ('FPS', 'First Person Shooters. Enjoy the action from the perspective of the character'),
+    ('RPG', 'Role Playing Games. They typically offer a journey'),
+    ('Online', 'As the name suggests. Backbone of gaming. Multiplayer experience with real people or friends');
 
 CREATE TABLE gamesAndCategories(
 id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -52,6 +54,7 @@ VALUES
 
 async function main() {
     console.log("seeding...");
+    // const conString = "postgres://YourUserName:YourPassword@YourHostname:5432/YourDatabaseName";
     const client = new Client({
         connectionString: `postgresql://${argv[2]}`,
     });

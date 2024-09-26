@@ -19,7 +19,7 @@ const singleGame = asyncHandler(async (req, res, next) => {
 });
 
 const createSingleGameGet = (req, res, next) => {
-    res.render('createGame', {
+    return res.status(200).render('createGame', {
         title: 'G.A.P',
         errors: []
     });

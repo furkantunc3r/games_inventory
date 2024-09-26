@@ -11,7 +11,7 @@
 <body>
     <%- include('navbar', {title: title}) %>
     <br><br>
-    <form action="/" method="POST">
+    <form action="/games/create" method="POST">
         <div class="form-group">
             <label for="gameName">Game Name</label>
             <input name="gameName" id="gameName" class="form-control">
@@ -23,8 +23,12 @@
         <button class="btn btn-warning" type="submit">Create</button>
         <br><br>
         <% if (errors.length > 0) { %>
-        <p class="text-danger"> <%= errors[0].msg %> </p>
-        <% } %>
+            <div class="text-danger">
+                <% errors.forEach(function(error) { %>
+                <p><%= error.msg %></p>
+                <% }); %>
+            </div>
+            <% } %>
     </form>
 </body>
 

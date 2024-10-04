@@ -6,15 +6,11 @@ const {
 } = require('express-validator');
 
 const singleGame = asyncHandler(async (req, res, next) => {
-    const game = await db.getSingleGame(req.params.id);
-
-    if (((game || {}).game || []).length === 0) {
-        return next();
-    }
+    const gameInformation = await db.getSingleGame(req.params.id);
 
     res.render('singleGame', {
         title: 'G.A.P',
-        game: ((game || {}).game || [])[0] || {}
+        gameInformation: gameInformation
     });
 });
 
@@ -50,12 +46,13 @@ const createSingleGamePost = [
 
         await db.createNewGame(req.body.gameName, req.body.gameDescription);
 
-        res.redirect('/games')
+        res.redirect('/');
     }),
 ];
 
 const updateGameGet = asyncHandler(async (req, res, next) => {
     const game = await db.getSingleGame(req.params.id);
+    const allCategories = await db.getAllCategories();
 
     if (((game || {}).game || []).length === 0) {
         return next();
@@ -64,6 +61,7 @@ const updateGameGet = asyncHandler(async (req, res, next) => {
     res.render('updateGameForm', {
         title: 'G.A.P',
         game: ((game || {}).game || [])[0] || {},
+        categories: allCategories,
         errors: []
     });
 });
@@ -84,18 +82,22 @@ const updateGamePost = [
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         const game = await db.getSingleGame(req.params.id);
+        const allCategories = await db.getAllCategories();
 
         if (!errors.isEmpty()) {
             return res.status(400).render('updateGameForm', {
                 title: 'G.A.P',
                 game: ((game || {}).game || [])[0] || {},
+                categories: allCategories,
                 errors: errors.array(),
             });
         }
 
-        await db.updateGame(req.body.gameName, req.body.gameDescription, req.params.id);
+        await db.updateGame(req.body.gameName, req.body.gameDescription, req.body.selectedCategories, req.params.id);
 
-        res.redirect('/');
+        setTimeout(() => {
+            res.redirect(`/games/${req.params.id}`);
+        }, 250);
     }),
 ];
 

@@ -16,13 +16,22 @@ async function getAllGames() {
 
 async function getSingleGame(id) {
     let game = [];
+    let categoriesIds = [];
+    let gameInformation = {};
+    let categories = [];
 
     try {
         game = (await pool.query("SELECT * FROM games WHERE game_id = $1", [id])).rows;
+        categoriesIds = (await pool.query("SELECT category_id FROM gamesandcategories WHERE game_id = $1 GROUP BY category_id", [id])).rows;
 
-        return {
-            game: game,
-        }
+        categories = await Promise.all(categoriesIds.map(category => {
+            return getCategoryWithoutGames(category.category_id);
+        }));
+
+        gameInformation.game = game;
+        gameInformation.categories = categories;
+
+        return gameInformation;
     } catch (error) {
         console.log(error);
 
@@ -63,6 +72,22 @@ async function getSingleCategory(id) {
     }
 }
 
+async function getCategoryWithoutGames(id) {
+    let category = [];
+
+    try {
+        category = (await pool.query("SELECT * FROM categories WHERE category_id = $1", [id])).rows;
+
+        return {
+            category: category,
+        }
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
 async function createNewCategory(categoryName, categoryDesription) {
     try {
         await pool.query("INSERT INTO CATEGORIES (name, description) values($1, $2)", [categoryName, categoryDesription]);
@@ -87,7 +112,35 @@ async function createNewGame(gameName, gameDesription) {
     }
 }
 
-async function updateGame(gameName, gameDescription, gameId) {
+async function insertNewCategoryToGame(gameId, categoryId) {
+    try {
+        await pool.query("INSERT INTO gamesandcategories (game_id, category_id) values($1, $2)", [gameId, categoryId]);
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
+async function updateAllCategoriesOfGame(gameId, gameCategories) {
+    try {
+        await pool.query("DELETE FROM gamesandcategories WHERE game_id = $1", [gameId]);
+
+        await Promise.all(gameCategories.map((category) => {
+            return insertNewCategoryToGame(gameId, category);
+        }));
+    } catch (error) {
+        console.log(error);
+
+        return;
+    }
+}
+
+async function updateGame(gameName, gameDescription, gameCategories, gameId) {
+    const categoryIds = (gameCategories || '').split(',');
+
+    categoryIds.length > 0 && updateAllCategoriesOfGame(gameId, categoryIds);
+
     try {
         await pool.query("UPDATE GAMES SET name = $1, description = $2 WHERE game_id = $3", [gameName, gameDescription, gameId]);
 
@@ -119,5 +172,7 @@ module.exports = {
     createNewCategory,
     createNewGame,
     updateGame,
-    updateCategory
+    updateCategory,
+    updateAllCategoriesOfGame,
+    insertNewCategoryToGame
 };

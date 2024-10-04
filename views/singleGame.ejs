@@ -10,11 +10,25 @@
 
 <body>
     <%- include('navbar', {title: title}) %>
-
     <br><br>
-
-    <h1> <%= game.name %> </h1>
-    <h4> <%= game.description %> </h4>
+    <h1 class="display-1"> <%= gameInformation.game[0].name %> </h1>
+    <h4 class="display-4"> <%= gameInformation.game[0].description %> </h4>
+    <ul class="list-group">
+        <% gameInformation.categories.forEach(category => { %>
+        <li class="list-group-item" style="width: 10%;"><a style="color: black;"
+                href="/category/<%= category.category[0].category_id %>"><%= category.category[0].name %></a></li>
+        <% }); %>
+    </ul>
 </body>
+<script>
+    document.querySelectorAll('.list-group-item').forEach(item => {
+        item.addEventListener('mouseover', () => {
+            item.classList.add('active');
+        });
+        item.addEventListener('mouseout', () => {
+            item.classList.remove('active');
+        });
+    });
+</script>
 
 </html>

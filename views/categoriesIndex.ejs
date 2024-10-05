@@ -22,6 +22,9 @@
                 <p class="card-text"><%= category.description %></p>
                 <a href="/category/<%= category.category_id %>" class="btn btn-primary">More</a>
                 <a href="/category/update/<%= category.category_id %>" class="btn btn-warning">Update</a>
+                <form action="/category/delete/<%= category.category_id %>" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
             </div>
         </div>
         <% }); %>

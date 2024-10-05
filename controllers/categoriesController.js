@@ -98,11 +98,20 @@ const updateCategoryPost = [
     }),
 ];
 
+const deleteSingleCategoryPost = asyncHandler(async (req, res, next) => {
+    await db.deleteSingleCategory(req.params.id);
+
+    setTimeout(() => {
+        res.redirect('/category');
+    }, 250);
+});
+
 module.exports = {
     categoriesIndex,
     singleCategory,
     createCategoryGet,
     createCategoryPost,
     updateCategoryGet,
-    updateCategoryPost
+    updateCategoryPost,
+    deleteSingleCategoryPost
 };

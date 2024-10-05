@@ -101,10 +101,19 @@ const updateGamePost = [
     }),
 ];
 
+const deleteSingleGamePost = asyncHandler(async (req, res, next) => {
+    await db.deleteSingleGame(req.params.id);
+
+    setTimeout(() => {
+        res.redirect('/');
+    }, 250);
+});
+
 module.exports = {
     singleGame,
     createSingleGameGet,
     createSingleGamePost,
     updateGameGet,
-    updateGamePost
+    updateGamePost,
+    deleteSingleGamePost
 };

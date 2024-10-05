@@ -164,6 +164,42 @@ async function updateCategory(categoryName, categoryDescription, categoryId) {
     }
 }
 
+async function deleteSingleGame(gameId) {
+    try {
+        await pool.query("DELETE FROM gamesandcategories WHERE game_id = $1", [gameId]);
+
+        const result = await pool.query("DELETE FROM GAMES WHERE game_id = $1", [gameId]);
+
+        if (result.rowCount > 0) {
+            return "Delete Successful";
+        } else {
+            return "No game found with the given ID";
+        }
+    } catch (error) {
+        console.error("Error deleting game:", error);
+
+        return "Delete Failed";
+    }
+}
+
+async function deleteSingleCategory(categoryId) {
+    try {
+        await pool.query("DELETE FROM gamesandcategories WHERE category_id = $1", [categoryId]);
+
+        const result = await pool.query("DELETE FROM CATEGORIES WHERE category_id = $1", [categoryId]);
+
+        if (result.rowCount > 0) {
+            return "Delete Successful";
+        } else {
+            return "No game found with the given ID";
+        }
+    } catch (error) {
+        console.error("Error deleting category:", error);
+
+        return "Delete Failed";
+    }
+};
+
 module.exports = {
     getAllGames,
     getSingleGame,
@@ -174,5 +210,7 @@ module.exports = {
     updateGame,
     updateCategory,
     updateAllCategoriesOfGame,
-    insertNewCategoryToGame
+    insertNewCategoryToGame,
+    deleteSingleGame,
+    deleteSingleCategory
 };

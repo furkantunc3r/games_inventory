@@ -54,9 +54,10 @@ VALUES
 
 async function main() {
     console.log("seeding...");
-    // const conString = "postgres://YourUserName:YourPassword@YourHostname:5432/YourDatabaseName";
+    const conString = `postgres://${'roykiepc\\furkan'}:9573@localhost:5432/game_inventory`;
+    console.log(conString);
     const client = new Client({
-        connectionString: `postgresql://${argv[2]}`,
+        connectionString: conString,
     });
     await client.connect();
     await client.query(SQL);

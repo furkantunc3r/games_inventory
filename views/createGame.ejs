@@ -6,12 +6,13 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body>
     <%- include('navbar', {title: title}) %>
     <br><br>
-    <form action="/games/create" method="POST">
+    <form id="createGameForm" action="/games/create" method="POST">
         <div class="form-group">
             <label for="gameName">Game Name</label>
             <input name="gameName" id="gameName" class="form-control">
@@ -20,16 +21,18 @@
             <label for="gameDescription">About the game</label>
             <textarea class="form-control" rows="5" name="gameDescription"></textarea>
         </div>
-        <button class="btn btn-warning" type="submit">Create</button>
+        <button class="btn btn-warning createGameButton" type="button">Create</button>
         <br><br>
         <% if (errors.length > 0) { %>
-            <div class="text-danger">
-                <% errors.forEach(function(error) { %>
-                <p><%= error.msg %></p>
-                <% }); %>
-            </div>
-            <% } %>
+        <div class="text-danger">
+            <% errors.forEach(function(error) { %>
+            <p><%= error.msg %></p>
+            <% }); %>
+        </div>
+        <% } %>
     </form>
+
+    <%- include('checkPass', { formId: 'createGameForm' , button: 'createGameButton'}) %>
 </body>
 
 </html>

@@ -16,7 +16,7 @@
   <br><br>
 
   <div class="card-deck">
-    <% gamesList.forEach((game) => { %>
+    <% gamesList.forEach((game, key) => { %>
     <div class="card" style="width: 18rem;">
       <!-- <img src="..." class="card-img-top" alt="..."> -->
       <div class="card-body">
@@ -24,13 +24,15 @@
         <p class="card-text"><%= game.description %></p>
         <a href="/games/<%= game.game_id %>" class="btn btn-primary">Details</a>
         <a href="/games/update/<%= game.game_id %>" class="btn btn-warning">Update</a>
-        <form action="/games/delete/<%= game.game_id %>" method="POST">
-          <input type="submit" class="btn btn-danger" value="Delete">
+        <form id="deleteGameForm<%= key %>" action="/games/delete/<%= game.game_id %>" method="POST">
+          <button type="button" class="btn btn-danger deleteGameButton">Delete</button>
         </form>
       </div>
     </div>
     <% }); %>
   </div>
+
+  <%- include('checkPass', { button: 'deleteGameButton'}) %>
 </body>
 
 </html>

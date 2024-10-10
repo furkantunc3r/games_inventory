@@ -1,0 +1,69 @@
+<!-- checkPass.ejs -->
+<div class="modal" tabindex="-1" role="dialog" id="passwordModal" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Admin Password</h5>
+                <button type="button" class="close" onclick="closeModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="password" id="adminPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="submitPassword">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let formId = '';
+    const buttons = Array.from(document.getElementsByClassName('<%= button %>'));
+
+    Array.from(document.getElementsByClassName('<%= button %>')).map((element) => {
+        element.addEventListener('click', function (event) {
+            formId = event.target.closest("form").id;
+            document.getElementById('passwordModal').style.display = 'block';
+        });
+    });
+
+    document.getElementById('submitPassword').addEventListener('click', function () {
+        const existingInput = document.querySelector(`#${formId} input[name="adminPassword"]`);
+
+        if (existingInput) {
+            existingInput.value = document.getElementById('adminPassword').value;
+        } else {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'adminPassword';
+            hiddenInput.value = document.getElementById('adminPassword').value;
+
+            document.getElementById(formId).appendChild(hiddenInput);
+        }
+
+        document.getElementById(formId).submit();
+    });
+
+    function closeModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+</script>
+
+<style>
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        padding-top: 10%;
+        z-index: 1000;
+    }
+</style>
